@@ -1,52 +1,109 @@
 'use client'
 
-import { useCallback } from 'react'
+import { MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from 'react'
+import { useCallback, useRef } from 'react'
+import { useStore } from 'zustand'
+import { uuid as randomUUID } from 'uuidv4';
 
-import { 
-  ReactFlow, useNodesState, useEdgesState,
-  addEdge, Controls, MiniMap, Background, Edge,
-  BackgroundVariant,Connection,ConnectionLineType,
+import {
+  ReactFlow,
+  Controls,
+  MiniMap,
+  Background,
+  BackgroundVariant,
+  ConnectionLineType,
+  NodeToolbar,
+  useReactFlow,
+  Node,
+  Panel,
+  ReactFlowInstance,
+  MarkerType,
+  OnConnectStartParams,
+  Edge,
 } from 'reactflow'
+import { ReactFlowProvider } from 'reactflow'
 
+import { useRFStore } from '@/app/state/store'
+
+import TextUpdatorNode from '../blocks/TextUpdator'
 import CustomNode from './CustomNode'
 
-const initialNodes = [
-  { id: '1', position: { x: 100, y: 100 }, data: { label: '1' } },
-  { id: '2', position: { x: 0, y: 250 }, data: { label: '2' } },
-  { id: '3', position: { x: 200, y: 250 }, data: { label: '3' } },
-  { id: '4', position: { x: 100, y: 400 }, data: { label: '4' } },
-]
-
-const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2', animated: true },
-  { id: 'e1-3', source: '1', target: '3' },
-  { id: 'e2-4', source: '2', target: '4' },
-  { id: 'e3-4', source: '3', target: '4' },
-]
+const proOptions = { hideAttribution: true }
 
 const defaultEdgeOptions = {
-  animated: true,
-  type: 'smoothstep',
+  style: { strokeWidth: 1 },
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    color: 'black',
+  },
 }
 
-const nodeTypes = {
-  custom: CustomNode,
-};
+const TextUpdator = {
+  id: 'node-1',
+  type: 'textUpdator',
+  position: { x: 100, y: 300 },
+  data: { color: '#6ede87' },
+}
 
-export default function Flow() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+const nodeTypes = { custom: CustomNode, textUpdator: TextUpdatorNode }
 
-  const onConnect = useCallback(
-    (params: Connection | Edge) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
+const onInit = (reactFlowInstance: ReactFlowInstance) => reactFlowInstance.zoomTo(15)
+
+const nodeColor = (node: Node) => {
+  switch (node.type) {
+    case 'input':
+      return '#6ede87'
+    case 'output':
+      return '#6865A5'
+    default:
+      return '#ff0072'
+  }
+}
+
+export default function FlowWithProvider(props: any) {
+  return (
+    <ReactFlowProvider>
+      <Flow {...props} />
+    </ReactFlowProvider>
   )
+}
+
+function Flow() {
+  const { nodes, edges, onConnect, onEdgesChange, onNodesChange } = useStore(useRFStore);
+  const { addNodes, project, setEdges, setNodes } = useReactFlow();
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const connectingNodeId = useRef<string | null>(null);
+
+  const addNode = (node: Node) => {
+    addNodes(node)
+  };
+
+  const onConnectStart = useCallback((_event: ReactMouseEvent | ReactTouchEvent, { nodeId }: OnConnectStartParams) => {
+    connectingNodeId.current = nodeId as string
+  }, [])
+
+  const onConnectEnd = useCallback((event: MouseEvent | TouchEvent) => {
+    const targetIsPane = (event?.target as Element)?.classList.contains('react-flow__pane');
+    const id = randomUUID();
+
+    if (targetIsPane && id) {
+      const { top, left } = reactFlowWrapper.current?.getBoundingClientRect() as DOMRect;
+      const newNode: Node = {
+        id,
+        // we are removing the half of the node width (75) to center the new node
+        position: project({ x: (event as MouseEvent).clientX - left - 75, y: (event as MouseEvent).clientY - top }),
+        data: { label: `Node ${id.slice(0,5)}` },
+      };
+
+      const edge: Edge = { id, source: connectingNodeId.current as string, target: id }
+      setNodes((nds) => nds.concat(newNode));
+      setEdges((eds) => eds.concat(edge));
+    }
+  }, [project, setNodes, setEdges]);
 
   return (
-    <div 
-      className="col-span-5 h-screen px-20 py-10 bg-zinc-500"
-    >
-      <div className="col-span-5 h-full bg-white">
+    <div className="col-span-5 h-screen  bg-zinc-500">
+      <div className="col-span-5 h-full bg-white"  ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -55,12 +112,32 @@ export default function Flow() {
           onConnect={onConnect}
           defaultEdgeOptions={defaultEdgeOptions}
           connectionLineType={ConnectionLineType.SmoothStep}
+          onConnectStart={onConnectStart}
+          onConnectEnd={onConnectEnd}
+          proOptions={proOptions}
           nodeTypes={nodeTypes}
+          onInit={onInit}
           fitView
         >
+          <Panel className="p-4 bg-slate-400 rounded-md" position="top-left">
+            <button onClick={() => addNode(TextUpdator)}>Add Node</button>
+          </Panel>
+          <NodeToolbar />
           <Controls />
-          <MiniMap zoomable pannable />
-          <Background variant={BackgroundVariant.Dots} color="#aaa" gap={16} size={1} />
+          <MiniMap nodeColor={nodeColor} zoomable pannable />
+          <Background
+            variant={BackgroundVariant.Cross}
+            color="#aaa"
+            gap={16}
+            size={1}
+          />
+          <Background
+            id="2"
+            gap={160}
+            offset={1}
+            color="#ccc"
+            variant={BackgroundVariant.Lines}
+          />
         </ReactFlow>
       </div>
     </div>
