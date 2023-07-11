@@ -29,8 +29,8 @@ pnpm dev
 
 This version of the Conversational Flow Editor includes only essential features for building a conversational bot. The current features are:
 
-- Bot editor canvas
-- Creation of new nodes
-- Clean and optimized persisted state
+- An editor playground.
+- Creation of new nodes.
+- Clean and optimized persisted state.
 
-Might continue working on this when i have some free time.
+Might continue working on this when i have some free time. 😜

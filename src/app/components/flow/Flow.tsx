@@ -1,8 +1,9 @@
 'use client'
 
-import { MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from 'react'
-import { useCallback, useRef } from 'react'
-import { useStore } from 'zustand'
+import { MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from 'react';
+import { useCallback, useRef } from 'react';
+
+import { useStore } from 'zustand';
 import { uuid as randomUUID } from 'uuidv4';
 
 import {
