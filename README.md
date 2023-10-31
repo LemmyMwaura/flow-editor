@@ -1,6 +1,6 @@
 # Conversational Flow Editor
 
-This is a straightforward conversational flow builder built with Next.js 13. It offers a drag-and-drop chat editor equipped with panning, zooming, a customized map, as well as implemented edges and node connections.
+This is a straightforward chatbot flow builder built with Next.js 13. It offers a drag-and-drop chat editor equipped with panning, zooming, a customized map, as well as implemented edges and node connections.
 
 ![App](/public/example.png)
 
@@ -27,10 +27,10 @@ pnpm dev
 
 ## Note
 
-This version of the Conversational Flow Editor includes only essential features for building a conversational bot. The current features are:
+This version of the chatbot Flow Editor includes only essential features for building a bot. i.e:
 
 - An editor playground.
 - Creation of new nodes.
-- Clean and optimized persisted state.
+- Clean, Optimized persisted state.
 
 Might continue working on this when i have some free time. 😜
