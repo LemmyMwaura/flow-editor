@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
 
 import { useStore } from 'zustand'
@@ -8,15 +8,21 @@ type NodeData = {
   color: string
 }
 
-const TextUpdatorNode = ({ id, data }: NodeProps<NodeData>) => {
+const TextUpdatorNode: React.FC<NodeProps<NodeData>> = ({ id, data }) => {
   const { updateNodeColor } = useStore(useRFStore)
 
-  const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
-    updateNodeColor(id, evt.target.value)
-  }, [id, updateNodeColor])
+  const onChange = useCallback(
+    (evt: ChangeEvent<HTMLInputElement>) => {
+      updateNodeColor(id, evt.target.value)
+    },
+    [id, updateNodeColor]
+  )
 
   return (
-    <div className="bg-white rounded-lg" style={{ backgroundColor: data.color }}>
+    <div
+      className="bg-white rounded-lg"
+      style={{ backgroundColor: data.color }}
+    >
       <Handle type="target" position={Position.Top}></Handle>
       <div className="p-4 border-pink-400 border rounded">
         <input
