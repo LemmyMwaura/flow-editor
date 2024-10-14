@@ -51,8 +51,8 @@ importers:
         specifier: ^6.2.13
         version: 6.2.13
       zustand:
-        specifier: ^4.3.8
-        version: 4.5.2(@types/react@18.2.7)(react@18.2.0)
+        specifier: ^5.0.0
+        version: 5.0.0(@types/react@18.2.7)(react@18.2.0)(use-sync-external-store@1.2.0(react@18.2.0))
 
 packages:
 
@@ -2033,6 +2033,24 @@ packages:
       react:
         optional: true
 
+  zustand@5.0.0:
+    resolution: {integrity: sha512-LE+VcmbartOPM+auOjCCLQOsQ05zUTp8RkgwRzefUk+2jISdMMFnxvyTjA4YNWr5ZGXYbVsEMZosttuxUBkojQ==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=18.0.0'
+      immer: '>=9.0.6'
+      react: '>=18.0.0'
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
+
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
@@ -3018,7 +3036,7 @@ snapshots:
       debug: 4.3.4
       enhanced-resolve: 5.14.1
       eslint: 9.5.0
-      eslint-module-utils: 2.8.0(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.7)(eslint-import-resolver-typescript@3.5.5(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.7)(eslint-plugin-import@2.29.1(eslint@9.5.0))(eslint@9.5.0))(eslint@9.5.0)
+      eslint-module-utils: 2.8.0(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.7)(eslint-import-resolver-typescript@3.5.5)(eslint@9.5.0)
       eslint-plugin-import: 2.29.1(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-typescript@3.5.5)(eslint@9.5.0)
       get-tsconfig: 4.5.0
       globby: 13.1.4
@@ -3031,7 +3049,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-module-utils@2.8.0(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.7)(eslint-import-resolver-typescript@3.5.5(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.7)(eslint-plugin-import@2.29.1(eslint@9.5.0))(eslint@9.5.0))(eslint@9.5.0):
+  eslint-module-utils@2.8.0(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.7)(eslint-import-resolver-typescript@3.5.5)(eslint@9.5.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -3042,7 +3060,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.8.0(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.5.5(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.7)(eslint-plugin-import@2.29.1(eslint@9.5.0))(eslint@9.5.0))(eslint@9.5.0):
+  eslint-module-utils@2.8.0(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.5.5)(eslint@9.5.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -3063,7 +3081,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.5.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.8.0(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.5.5(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.7)(eslint-plugin-import@2.29.1(eslint@9.5.0))(eslint@9.5.0))(eslint@9.5.0)
+      eslint-module-utils: 2.8.0(@typescript-eslint/parser@5.59.7(eslint@9.5.0)(typescript@5.0.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.5.5)(eslint@9.5.0)
       hasown: 2.0.2
       is-core-module: 2.13.1
       is-glob: 4.0.3
@@ -4429,3 +4447,9 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.2.7
       react: 18.2.0
+
+  zustand@5.0.0(@types/react@18.2.7)(react@18.2.0)(use-sync-external-store@1.2.0(react@18.2.0)):
+    optionalDependencies:
+      '@types/react': 18.2.7
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
